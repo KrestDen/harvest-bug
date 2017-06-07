@@ -20,7 +20,7 @@ namespace HarvestBug
 
         public void SendMessages()
         {
-            while (!AllBotsFinished())
+            while (!IsAllBotsFinished())
             {
                 foreach (KeyValuePair<Bot, KeyValuePair<Message, int>> bot in m_dict)
                 {
@@ -65,7 +65,7 @@ namespace HarvestBug
             message.message = "Добрый день, " + nextUSerForSpam.first_name + " " + nextUSerForSpam.last_name + ". " + generalMsg;
         }
 
-        private bool AllBotsFinished()
+        private bool IsAllBotsFinished()
         {
             foreach (KeyValuePair<Bot, KeyValuePair<Message, int>> bot in m_dict)
             {
@@ -76,14 +76,6 @@ namespace HarvestBug
             }
 
             return true;
-        }
-
-        private void FillDict()
-        {
-            /*
-            Bot bot = new Bot()
-            m_dict.Add()
-            */
         }
 
         private Message GetMessage(string message, string attachments)
