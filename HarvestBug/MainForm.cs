@@ -122,6 +122,7 @@ namespace HarvestBug
                 btnResetCounters.Enabled = !busy;
                 btnStart.Enabled = !busy;
                 button1.Enabled = !busy;
+                btnAddUsers.Enabled = !busy;
             });
         }
 
@@ -169,6 +170,11 @@ namespace HarvestBug
             {
                 WriteToConsole("Empty link");
             }
+        }
+
+        private void btnManageBots_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
