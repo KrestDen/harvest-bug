@@ -12,6 +12,8 @@ namespace HarvestBug
     class DbHadler
     {
         private SQLiteConnection m_connection;
+        private List<string> m_badUsers;
+        private int m_minUserIdForSpamId = 1;
 
         public DbHadler(string dbPath)
         {
@@ -213,65 +215,8 @@ namespace HarvestBug
             int count = Convert.ToInt32(cmd.ExecuteScalar());
             cmd.Dispose();
             return count > 0;
-        }
-
-        public string GetPhotoId(string albumUrl)
-        {
-            string photoId = "";
-            try
-            {
-                if (IsAlbumPresent(albumUrl))
-                {
-                    SQLiteCommand cmd = m_connection.CreateCommand();
-                    cmd.CommandText = "SELECT photo_id FROM albums WHERE album_url = '" + albumUrl + "';";
-                    SQLiteDataReader r = cmd.ExecuteReader();
-                    if (r != null)
-                    {
-                        while (r.Read())
-                        {
-                            photoId = r["photo_id"].ToString();
-                        }
-                        r.Close();
-                    }
-                    cmd.Dispose();
-                }
-            }
-            catch (SQLiteException ex)
-            {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            return photoId;
-        }
-        /*
-        public void UpdateInfo(string albumUrl, string groupeId, string nextPhotoId, string photoUrl, string date)
-        {
-            try
-            {
-                if (!IsAlbumPresent(albumUrl))
-                {
-                    SQLiteCommand cmd2 = m_connection.CreateCommand();
-                    string sqlCommandinsertRow = "INSERT INTO albums(album_url, groupe_id, photo_id, photo_url, date) "
-                        + "VALUES ('" + albumUrl + "', '" + groupeId + "', '" + nextPhotoId + "', '" + photoUrl + "', '" + date + "'); ";
-                    cmd2.CommandText = sqlCommandinsertRow;
-                    cmd2.ExecuteNonQuery();
-                    cmd2.Dispose();
-                }
-                else
-                {
-                    SQLiteCommand cmd3 = m_connection.CreateCommand();
-                    string sqlCommand = "UPDATE albums "
-                        + "SET groupe_id='" + groupeId + "', photo_id = '" + nextPhotoId + "', photo_url='" + photoUrl + "', date='" + date + "' WHERE album_url ='" + albumUrl + "';";
-                    cmd3.CommandText = sqlCommand;
-                    cmd3.ExecuteNonQuery();
-                    cmd3.Dispose();
-                }
-            }
-            catch (SQLiteException ex)
-            {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-        */
+        }        
+        
         public void MarkUserAsDone(string userId)
         {
             SQLiteCommand cmd3 = m_connection.CreateCommand();
@@ -281,23 +226,7 @@ namespace HarvestBug
             cmd3.ExecuteNonQuery();
             cmd3.Dispose();
         }
-
-        public void AddUsersForSpam(List<string> userIds, string sent)
-        {
-            SQLiteCommand cmd2 = m_connection.CreateCommand();
-            foreach (string id in userIds)
-            {
-                if (!UserExist(id))
-                {                    
-                    string sqlCommandinsertRow = "INSERT INTO spam(user_id, message_sent) "
-                        + "VALUES ('" + id + "', '" + sent + "');";
-                    cmd2.CommandText = sqlCommandinsertRow;
-                    cmd2.ExecuteNonQuery();
-                }
-            }
-            cmd2.Dispose();
-        }
-
+        
         public void AddUsersForSpam(List<string> userIds, string sent, MessageSendPresenter presenter)
         {
             SQLiteCommand cmd2 = m_connection.CreateCommand();
@@ -309,6 +238,7 @@ namespace HarvestBug
                         + "VALUES ('" + id + "', '" + sent + "');";
                     cmd2.CommandText = sqlCommandinsertRow;
                     cmd2.ExecuteNonQuery();
+                    presenter.NewMessage("Added " + id);
                 }
                 else
                 {
@@ -419,20 +349,24 @@ namespace HarvestBug
 
         public string GetNextUserIDForSpam()
         {
-            /*
             SQLiteCommand cmd = m_connection.CreateCommand();
-            cmd.CommandText = "SELECT user_id FROM spam WHERE sent = '0'  LIMIT 1";
+            cmd.CommandText = "SELECT id, user_id FROM spam WHERE message_sent = '0' AND id > '" + m_minUserIdForSpamId.ToString() + "' LIMIT 1";
             try
             {
                 SQLiteDataReader r = cmd.ExecuteReader();
-                string userId = r["user_id"].ToString();
-               
-                r.Close();
-                cmd.Dispose();
-                if (userId == null || userId == "")
+                r.Read();
+                if (r.StepCount < 1)
                 {
                     throw new Exception("No users for spam");
                 }
+                
+                string id = r["id"].ToString();
+                m_minUserIdForSpamId = Convert.ToInt32(id);                    
+                string userId = r["user_id"].ToString();
+
+                r.Close();
+                cmd.Dispose();
+
                 return userId;
             }
             catch (SQLiteException ex)
@@ -440,8 +374,8 @@ namespace HarvestBug
                 MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             return "";
-            */
-            return /*"romanovromahkin"12287641*/"205164899";
+
+            // return "romanovromahkin"12287641 "205164899";
         }
 
         public bool UserExist(string id)
@@ -472,29 +406,6 @@ namespace HarvestBug
             {
                 MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-        }
-
-        public void AddNewAlbum(string albumUrl)
-        {
-            //todo
-            if (!IsAlbumPresent(albumUrl))
-            {
-                SQLiteCommand cmd2 = m_connection.CreateCommand();
-                string sqlCommandinsertRow = "INSERT INTO albums(album_url) "
-                    + "VALUES ('" + albumUrl + "');";
-                cmd2.CommandText = sqlCommandinsertRow;
-                cmd2.ExecuteNonQuery();
-                cmd2.Dispose();
-            }
-        }
-
-        public bool IsAlbumPresent(string albumUrl)
-        {
-            SQLiteCommand cmd = m_connection.CreateCommand();
-            cmd.CommandText = "SELECT COUNT(*) FROM albums WHERE album_url = '" + albumUrl + "';";
-            int albumExist = Convert.ToInt32(cmd.ExecuteScalar());
-            cmd.Dispose();
-            return albumExist > 0;
         }
 
         public void GetListOfBots(out List<string> bolLogins)
