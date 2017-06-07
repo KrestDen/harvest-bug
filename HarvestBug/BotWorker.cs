@@ -69,7 +69,7 @@ namespace HarvestBug
                 {
                     Message msg = new Message();
                     string generalMsg = m_task.text;
-                    string decoratedMsg = "Добрый день, " + nextUSerForSpam.first_name + " " + nextUSerForSpam.last_name + ". " + generalMsg;
+                    string decoratedMsg = "Добрый день, " + " " + nextUSerForSpam.first_name + ". " + generalMsg;
                     msg.message = decoratedMsg;
                     msg.attachments = m_task.attachments;
                     Bot.SendMsg(userForSpam, msg);
