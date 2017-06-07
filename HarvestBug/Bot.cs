@@ -273,17 +273,24 @@ namespace HarvestBug
             }
         }
         
+        private string TimeFromMillisecons(int milliseconds)
+        {
+            TimeSpan result = TimeSpan.FromMilliseconds(milliseconds);
+            return result.ToString("hh':'mm':'ss'");
+        }
+
         public void Timeout()
         {
             int timeout = m_rand.Next(500, 5000);
-            m_observer.NewMessage("Timeout " + timeout);
+            m_observer.NewMessage("Timeout " + TimeFromMillisecons(timeout));
             Thread.Sleep(timeout);
         }
 
         public void LongTimeout()
         {
             int timeout = m_rand.Next(60000, 300000);
-            m_observer.NewMessage("Timeout " + timeout);
+            TimeSpan result = TimeSpan.FromMilliseconds(timeout);
+            m_observer.NewMessage("Timeout " + TimeFromMillisecons(timeout));
             Thread.Sleep(timeout);
         }
 
