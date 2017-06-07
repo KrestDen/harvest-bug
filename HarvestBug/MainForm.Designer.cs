@@ -40,6 +40,7 @@
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.listLog = new System.Windows.Forms.ListBox();
             this.m_botContainer = new HarvestBug.BotContainer();
+            this.btnManageBots = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.flowLayoutPanel2.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -67,6 +68,7 @@
             this.flowLayoutPanel2.Controls.Add(this.btnResetCounters);
             this.flowLayoutPanel2.Controls.Add(this.btnAddTask);
             this.flowLayoutPanel2.Controls.Add(this.btnAddUsers);
+            this.flowLayoutPanel2.Controls.Add(this.btnManageBots);
             this.flowLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.flowLayoutPanel2.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
             this.flowLayoutPanel2.Location = new System.Drawing.Point(0, 9);
@@ -180,6 +182,17 @@
             this.m_botContainer.Size = new System.Drawing.Size(724, 420);
             this.m_botContainer.TabIndex = 0;
             // 
+            // btnManageBots
+            // 
+            this.btnManageBots.Location = new System.Drawing.Point(398, 3);
+            this.btnManageBots.Name = "btnManageBots";
+            this.btnManageBots.Size = new System.Drawing.Size(110, 23);
+            this.btnManageBots.TabIndex = 9;
+            this.btnManageBots.Text = "Bot manager";
+            this.btnManageBots.UseVisualStyleBackColor = true;
+            this.btnManageBots.Visible = false;
+            this.btnManageBots.Click += new System.EventHandler(this.btnManageBots_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -217,6 +230,7 @@
         private System.Windows.Forms.Button btnResetCounters;
         private System.Windows.Forms.Button btnAddTask;
         private System.Windows.Forms.Button btnAddUsers;
+        private System.Windows.Forms.Button btnManageBots;
     }
 }
 
