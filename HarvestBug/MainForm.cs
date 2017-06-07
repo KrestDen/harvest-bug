@@ -155,7 +155,8 @@ namespace HarvestBug
 
         private void btnAddUsers_Click(object sender, EventArgs e)
         {
-            m_insertLinkWindow.Show();
+             m_insertLinkWindow.Show();
+           // m_presenter.Test();
         }
 
         private void OnAddNewUsers(string link)

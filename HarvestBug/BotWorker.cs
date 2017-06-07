@@ -58,6 +58,23 @@ namespace HarvestBug
             return Convert.ToInt16(m_task.max) <= Convert.ToInt16(m_task.current);
         }
 
+        public string GetHello()
+        {
+            DateTime localDate = DateTime.Now;
+            if (localDate.Hour < 12)
+            {
+                return "Доброе утро";
+            }
+            else if (localDate.Hour < 18)
+            {
+                return "Добрый день";
+            }
+            else
+            {
+                return "Добрый вечер";
+            }
+        }
+
         public void DoTask()
         {
             bool hasBeenSent = false;
@@ -68,8 +85,8 @@ namespace HarvestBug
                 if (nextUSerForSpam.online == "1" && nextUSerForSpam.can_write_private_message == "1")
                 {
                     Message msg = new Message();
-                    string generalMsg = m_task.text;
-                    string decoratedMsg = "Добрый день, " + " " + nextUSerForSpam.first_name + ". " + generalMsg;
+                    string generalMsg = m_task.text;                    
+                    string decoratedMsg = GetHello() + ", " + " " + nextUSerForSpam.first_name + ". " + generalMsg;
                     msg.message = decoratedMsg;
                     msg.attachments = m_task.attachments;
                     Bot.SendMsg(userForSpam, msg);

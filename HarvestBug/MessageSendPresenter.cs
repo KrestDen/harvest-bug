@@ -296,5 +296,10 @@ namespace HarvestBug
                 NewMessage("Finished adding users to database from " + link);
             });
         }        
+
+        public void Test()
+        {
+            string str = m_workers[0].GetHello();
+        }
     }
 }
