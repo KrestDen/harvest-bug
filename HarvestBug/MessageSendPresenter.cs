@@ -193,32 +193,38 @@ namespace HarvestBug
         public async void StartSending()
         {
             m_inProcess = true;
-            //m_hardcodedManeger.SendMessages();
             await Task.Run(() =>
             {
                 try
                 {
-                    while (!AllBotsFinished())
+                    int messagesSent = 0;
+                    while (true)
                     {
                         foreach (BotWorker worker in m_workers)
                         {
                             if (!worker.IsFinished())
                             {
                                 worker.DoTask();
-                                worker.Bot.LongTimeout();
+                                ++messagesSent;
+                                if (!AllBotsFinished())
+                                {
+                                    worker.Bot.LongTimeout();
+                                }
+                                else
+                                {
+                                    m_inProcess = false;
+                                    m_view.SetBusy(false);
+                                    NewMessage("Complete. " + messagesSent.ToString() + "Hasbeen sent");
+                                    return;
+                                }
                             }
                         }
-                    }
-                    m_inProcess = false;
+                    }                    
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-
-
-                m_view.SetBusy(false);
-                return;
+                }                                
             });
         }
                     
@@ -260,8 +266,7 @@ namespace HarvestBug
         {
             foreach (BotWorker worker in m_workers)
             {
-                worker.ResetCounters();
-
+                worker.ResetCounter();
             }
             m_db.ResetCounters();
         }
