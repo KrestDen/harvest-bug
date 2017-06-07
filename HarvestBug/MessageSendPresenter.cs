@@ -56,7 +56,7 @@ namespace HarvestBug
                     {
                         users.Add(id);
                     }
-                    m_db.AddUsersForSpam(users, sent);
+                    m_db.AddUsersForSpam(users, sent, this);
                 }
                 NewMessage("Done");
                 return users.Count;
@@ -205,7 +205,7 @@ namespace HarvestBug
                             if (!worker.IsFinished())
                             {
                                 worker.DoTask();
-                                worker.Bot.Timeout();
+                                worker.Bot.LongTimeout();
                             }
                         }
                     }
@@ -274,28 +274,27 @@ namespace HarvestBug
             }
         }
 
-        public async void AddUsersForSpam(string publicId)
+        public async void AddUsersForSpam(string link)
         {
             await Task.Run(() =>
             {
                 List<string> users = new List<string>();
                 string token = m_db.GetSavedToken("05036@i.ua");
-                if (token == "" /* || expired */)
+                if (token == "" )
                 {
                     token = Bot.GetRefreshToken("05036@i.ua", "12345lebed12345", this);
                     m_db.SaveToken("05036@i.ua", "12345lebed12345", token);
+                    NewMessage("Token " + token);
                 }
-                NewMessage("Token " + token);
-                m_bot = new Bot("05036@i.ua", token, "205164899", ref m_db, this);
-                new System.Threading.Thread(delegate ()
-                {
-                    NewMessage("Start getting users from " + publicId);
-                    m_bot.GetMembers(publicId, out users);
-                    NewMessage("Finished getting users from " + publicId);
-                    m_db.AddUsersForSpam(users, "0");
-                    NewMessage("Finished adding users to database from " + publicId);
-                }).Start();
+                
+                NewMessage("Start getting users from " + link);
+                Bot bot = new Bot(token, ref m_db, this);
+                bot.GetMembers(link, out users);
+                NewMessage("Finished getting users from " + link);
+                NewMessage("Start adding users to database from " + link);
+                m_db.AddUsersForSpam(users, "0", this);
+                NewMessage("Finished adding users to database from " + link);
             });
-        }
+        }        
     }
 }
