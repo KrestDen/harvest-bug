@@ -60,7 +60,6 @@ namespace HarvestBug
         {
             this.Invoke((Action)delegate
             {
-                numericMax.Value = 0;
                 lblCounter.Text = "0";
                 UpdateProgress();
             });

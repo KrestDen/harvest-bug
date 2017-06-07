@@ -13,7 +13,7 @@ namespace HarvestBug
     {
         private SQLiteConnection m_connection;
         private List<string> m_badUsers;
-        private int m_minUserIdForSpamId = 1;
+        private int m_maxUserIdForSpamId = int.MaxValue;
 
         public DbHadler(string dbPath)
         {
@@ -196,7 +196,7 @@ namespace HarvestBug
             SQLiteCommand cmd3 = m_connection.CreateCommand();
             try
             {                
-                string sqlCommand = "UPDATE tasks SET current_reiteretion='0', max_reiteration = '0';";
+                string sqlCommand = "UPDATE tasks SET current_reiteretion='0';";
                 cmd3.CommandText = sqlCommand;
                 cmd3.ExecuteNonQuery();
                 
@@ -246,6 +246,8 @@ namespace HarvestBug
                 }
             }
             cmd2.Dispose();
+
+            m_maxUserIdForSpamId = int.MaxValue;
         }
 
         public void GetUsersList(ref Dictionary<string, string> users)
@@ -350,7 +352,7 @@ namespace HarvestBug
         public string GetNextUserIDForSpam()
         {
             SQLiteCommand cmd = m_connection.CreateCommand();
-            cmd.CommandText = "SELECT id, user_id FROM spam WHERE message_sent = '0' AND id > '" + m_minUserIdForSpamId.ToString() + "' LIMIT 1";
+            cmd.CommandText = "SELECT id, user_id FROM spam WHERE message_sent = '0' AND id < '" + m_maxUserIdForSpamId.ToString() + "' ORDER BY id LIMIT 1";
             try
             {
                 SQLiteDataReader r = cmd.ExecuteReader();
@@ -361,7 +363,7 @@ namespace HarvestBug
                 }
                 
                 string id = r["id"].ToString();
-                m_minUserIdForSpamId = Convert.ToInt32(id);                    
+                m_maxUserIdForSpamId = Convert.ToInt32(id);                    
                 string userId = r["user_id"].ToString();
 
                 r.Close();

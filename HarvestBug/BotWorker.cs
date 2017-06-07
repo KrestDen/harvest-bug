@@ -24,9 +24,8 @@ namespace HarvestBug
 
         internal Bot Bot { get => m_bot; set => m_bot = value; }
         
-        public void ResetCounters()
+        public void ResetCounter()
         {
-            m_task.max = "0";
             m_task.current = "0";
         }
 
