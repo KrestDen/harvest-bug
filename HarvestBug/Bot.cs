@@ -330,6 +330,7 @@ namespace HarvestBug
                 //new KeyValuePair<string, string>("access_token", m_token),
                 new KeyValuePair<string, string>("fields", "city,verified,online,can_write_private_message,screen_name,domain"),
                 new KeyValuePair<string, string>("name_case", "Nom"),
+                new KeyValuePair<string, string>("lang", "ru")
                 });
                 var t = client.PostAsync("https://api.vk.com/method/users.get", requestContent);
                 t.Wait();
