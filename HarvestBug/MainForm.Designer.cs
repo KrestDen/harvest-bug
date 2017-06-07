@@ -34,6 +34,7 @@
             this.button1 = new System.Windows.Forms.Button();
             this.btnResetCounters = new System.Windows.Forms.Button();
             this.btnAddTask = new System.Windows.Forms.Button();
+            this.btnAddUsers = new System.Windows.Forms.Button();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.panel2 = new System.Windows.Forms.Panel();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
@@ -65,6 +66,7 @@
             this.flowLayoutPanel2.Controls.Add(this.button1);
             this.flowLayoutPanel2.Controls.Add(this.btnResetCounters);
             this.flowLayoutPanel2.Controls.Add(this.btnAddTask);
+            this.flowLayoutPanel2.Controls.Add(this.btnAddUsers);
             this.flowLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.flowLayoutPanel2.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
             this.flowLayoutPanel2.Location = new System.Drawing.Point(0, 9);
@@ -74,9 +76,9 @@
             // 
             // btnStart
             // 
-            this.btnStart.Location = new System.Drawing.Point(1013, 3);
+            this.btnStart.Location = new System.Drawing.Point(978, 3);
             this.btnStart.Name = "btnStart";
-            this.btnStart.Size = new System.Drawing.Size(75, 23);
+            this.btnStart.Size = new System.Drawing.Size(110, 23);
             this.btnStart.TabIndex = 3;
             this.btnStart.Text = "Start";
             this.btnStart.UseVisualStyleBackColor = true;
@@ -84,9 +86,9 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(932, 3);
+            this.button1.Location = new System.Drawing.Point(862, 3);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.Size = new System.Drawing.Size(110, 23);
             this.button1.TabIndex = 4;
             this.button1.Text = "Add bot";
             this.button1.UseVisualStyleBackColor = true;
@@ -94,9 +96,9 @@
             // 
             // btnResetCounters
             // 
-            this.btnResetCounters.Location = new System.Drawing.Point(829, 3);
+            this.btnResetCounters.Location = new System.Drawing.Point(746, 3);
             this.btnResetCounters.Name = "btnResetCounters";
-            this.btnResetCounters.Size = new System.Drawing.Size(97, 23);
+            this.btnResetCounters.Size = new System.Drawing.Size(110, 23);
             this.btnResetCounters.TabIndex = 7;
             this.btnResetCounters.Text = "Reset counters";
             this.btnResetCounters.UseVisualStyleBackColor = true;
@@ -104,13 +106,23 @@
             // 
             // btnAddTask
             // 
-            this.btnAddTask.Location = new System.Drawing.Point(748, 3);
+            this.btnAddTask.Location = new System.Drawing.Point(630, 3);
             this.btnAddTask.Name = "btnAddTask";
-            this.btnAddTask.Size = new System.Drawing.Size(75, 23);
+            this.btnAddTask.Size = new System.Drawing.Size(110, 23);
             this.btnAddTask.TabIndex = 6;
             this.btnAddTask.Text = "Add task";
             this.btnAddTask.UseVisualStyleBackColor = true;
             this.btnAddTask.Click += new System.EventHandler(this.btnAddTask_Click);
+            // 
+            // btnAddUsers
+            // 
+            this.btnAddUsers.Location = new System.Drawing.Point(514, 3);
+            this.btnAddUsers.Name = "btnAddUsers";
+            this.btnAddUsers.Size = new System.Drawing.Size(110, 23);
+            this.btnAddUsers.TabIndex = 8;
+            this.btnAddUsers.Text = "Add users for spam";
+            this.btnAddUsers.UseVisualStyleBackColor = true;
+            this.btnAddUsers.Click += new System.EventHandler(this.btnAddUsers_Click);
             // 
             // flowLayoutPanel1
             // 
@@ -177,7 +189,7 @@
             this.Controls.Add(this.panel1);
             this.MinimumSize = new System.Drawing.Size(160, 38);
             this.Name = "MainForm";
-            this.Text = "Form1";
+            this.Text = "Harvest Bug";
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.flowLayoutPanel2.ResumeLayout(false);
@@ -204,6 +216,7 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button btnResetCounters;
         private System.Windows.Forms.Button btnAddTask;
+        private System.Windows.Forms.Button btnAddUsers;
     }
 }
 

@@ -24,6 +24,7 @@ namespace HarvestBug
         private NewBotWindow m_newBotWindow;
         static AutoResetEvent CaptchaEntered;
         private AddTaskWindow m_addTaskWindow;
+        private InsertLinkWindow m_insertLinkWindow;
 
         public MainForm()
         {
@@ -34,10 +35,12 @@ namespace HarvestBug
             m_captchaForm = new CaptchaForm();
             m_newBotWindow = new NewBotWindow();
             m_addTaskWindow = new AddTaskWindow();
+            m_insertLinkWindow = new InsertLinkWindow();
             m_newBotWindow.newBotEntered += OnNewBot;
             m_captchaForm.CaptchaEntered += SetCapcha;
             m_addTaskWindow.taskEnteredEvent += OnNewTask;
             m_botContainer.maxValueChangedEvent += OnMaxValueChanged;
+            m_insertLinkWindow.linkAddedEvent += OnAddNewUsers;
 
             FillBotContainer();
         }
@@ -148,6 +151,23 @@ namespace HarvestBug
                 m_botContainer.ResetCounters();
                 m_presenter.ResetCounters();
             });
+        }
+
+        private void btnAddUsers_Click(object sender, EventArgs e)
+        {
+            m_insertLinkWindow.Show();
+        }
+
+        private void OnAddNewUsers(string link)
+        {
+            if (link != "")
+            {
+                m_presenter.AddUsersForSpam(link);
+            }
+            else
+            {
+                WriteToConsole("Empty link");
+            }
         }
     }
 }
