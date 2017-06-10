@@ -276,7 +276,10 @@ namespace HarvestBug
         private string TimeFromMillisecons(int milliseconds)
         {
             TimeSpan result = TimeSpan.FromMilliseconds(milliseconds);
-            return result.ToString("hh':'mm':'ss'");
+            return string.Format("{0:D2}:{1:D2}:{2:D2}",
+                                result.Hours,
+                                result.Minutes,
+                                result.Seconds);
         }
 
         public void Timeout()

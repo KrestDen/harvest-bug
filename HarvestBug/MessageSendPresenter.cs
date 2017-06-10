@@ -194,7 +194,7 @@ namespace HarvestBug
         {
             m_inProcess = true;
             await Task.Run(() =>
-            {
+            {                
                 try
                 {
                     int messagesSent = 0;
@@ -214,7 +214,7 @@ namespace HarvestBug
                                 {
                                     m_inProcess = false;
                                     m_view.SetBusy(false);
-                                    NewMessage("Complete. " + messagesSent.ToString() + "Hasbeen sent");
+                                    NewMessage("Complete. " + messagesSent.ToString() + " Has been sent");
                                     return;
                                 }
                             }

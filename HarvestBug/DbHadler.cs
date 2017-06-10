@@ -352,7 +352,7 @@ namespace HarvestBug
         public string GetNextUserIDForSpam()
         {
             SQLiteCommand cmd = m_connection.CreateCommand();
-            cmd.CommandText = "SELECT id, user_id FROM spam WHERE message_sent = '0' AND id < '" + m_maxUserIdForSpamId.ToString() + "' ORDER BY id LIMIT 1";
+            cmd.CommandText = "SELECT id, user_id FROM spam WHERE message_sent = '0' AND id < '" + m_maxUserIdForSpamId.ToString() + "' ORDER BY id DESC LIMIT 1";
             try
             {
                 SQLiteDataReader r = cmd.ExecuteReader();
